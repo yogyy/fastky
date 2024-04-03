@@ -1,3 +1,4 @@
+import { JWT } from "@fastify/jwt";
 import type { ColumnType } from "kysely";
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
@@ -7,20 +8,34 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface User {
-  bannerUrl: string | null;
-  bio: string | null;
-  birthDate: Timestamp | null;
-  createdAt: Generated<Timestamp>;
-  id: string;
-  imageUrl: string;
-  location: string | null;
-  name: string;
-  type: Generated<"developer" | "user" | "verified">;
-  updatedAt: Timestamp;
+  id: Generated<number>;
+  uuid: Generated<string | null>;
+  email: string;
   username: string;
-  website: string | null;
+  name: string;
+  password: string;
+  is_active: Generated<boolean>;
+  role: Generated<"developer" | "user" | "verified">;
+  created_at: Generated<Timestamp>;
+  updated_at: Generated<Timestamp>;
 }
 
 export interface DB {
-  user: User;
+  ky_user: User;
+}
+
+export interface JWTPayload {
+  id: number | string;
+  email: string;
+  name: string;
+}
+
+declare module "fastify" {
+  interface FastifyRequest {
+    jwt: JWT;
+    generateToken(payload: JWTPayload): string;
+  }
+  export interface FastifyInstance {
+    auth: any;
+  }
 }
