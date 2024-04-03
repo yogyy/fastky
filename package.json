@@ -23,6 +23,7 @@
     "fastify": "^4.26.2",
     "fastify-plugin": "^4.5.1",
     "kysely": "^0.27.3",
+    "oslo": "^1.2.0",
     "pg": "^8.11.4",
     "pino": "^8.19.0",
     "pino-pretty": "^11.0.0",
