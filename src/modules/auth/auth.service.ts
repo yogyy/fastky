@@ -13,7 +13,7 @@ async function findUser(email: string) {
   return await db
     .selectFrom("ky_user")
     .where("email", "=", email)
-    .selectAll()
+    .select(["email", "username", "name", "role", "uuid", "password"])
     .executeTakeFirstOrThrow();
 }
 

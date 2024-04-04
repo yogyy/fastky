@@ -4,38 +4,38 @@ import { createUser, findUser } from "./auth.service";
 import { Argon2id } from "oslo/password";
 import { DatabaseError } from "pg";
 import { NoResultError } from "kysely";
+import { generateAccToken } from "./lib";
+
+const argon = new Argon2id();
 
 export async function loginHandler(
   req: FastifyRequest<{ Body: loginType }>,
   reply: FastifyReply
-) {
+): Promise<void> {
   const { email, password } = req.body;
-  const argon = new Argon2id();
+
   try {
-    req.log.info("Create token by login");
+    req.log.info("User Login");
 
     const user = await findUser(email);
 
     const verified = await argon.verify(user.password, password);
 
     if (!verified) {
-      return reply.code(401).send({
-        error: "Incorrect password",
-      });
+      return reply.code(401).send(new Error("Incorrect password"));
     }
 
-    const payload = {
-      sub: user.uuid,
-      email: user.email,
-      name: user.name,
-    };
+    const token = await generateAccToken(user, req.generateToken);
 
-    const token = await reply.jwtSign(payload);
     reply.code(200).send({
       success: true,
       message: "Login successful",
       data: {
-        user: user,
+        email: user.email,
+        username: user.username,
+        name: user.name,
+        role: user.role,
+        uuid: user.uuid,
       },
       access_token: token,
     });
@@ -43,7 +43,7 @@ export async function loginHandler(
     console.log(err);
     if (err instanceof NoResultError) {
       if (err.message === "no result") {
-        reply.code(404).send({ error: "User Not Found" });
+        return reply.code(404).send(new Error("User Not Found"));
       }
     } else {
       reply.code(500).send(err);
@@ -54,11 +54,12 @@ export async function loginHandler(
 export async function registerUserHandler(
   req: FastifyRequest<{ Body: registerType }>,
   reply: FastifyReply
-) {
+): Promise<void> {
   const { email, password, username, name } = req.body;
-  const argon = new Argon2id();
 
   try {
+    req.log.info("User Register");
+
     const hashPass = await argon.hash(password);
 
     const newUser = await createUser({
@@ -68,12 +69,7 @@ export async function registerUserHandler(
       name,
     });
 
-    const payload = {
-      sub: newUser.uuid,
-      email: newUser.email,
-      name: newUser.name,
-    };
-    const token = await reply.jwtSign(payload);
+    const token = await generateAccToken(newUser, req.generateToken);
 
     reply.code(200).send({
       success: true,
@@ -87,10 +83,12 @@ export async function registerUserHandler(
       if (err.code === "23505") {
         const errorMessage =
           err.constraint === "ky_user_email_key" ? "Email address" : "Username";
-        reply.code(400).send({ error: `${errorMessage} already exists` });
+        return reply
+          .code(400)
+          .send(new Error(`${errorMessage} already exists`));
       }
     } else {
-      reply.code(500).send({ err });
+      reply.code(500).send(err);
     }
   }
 }
