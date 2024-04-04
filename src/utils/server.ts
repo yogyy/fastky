@@ -2,21 +2,19 @@ import fastify from "fastify";
 import { logger } from "./logger";
 import fastifyAutoload from "@fastify/autoload";
 import { join } from "path";
+import authPlugins from "@/plugins/auth";
+import "dotenv/config";
 
-export async function buildServer() {
+export default async function buildServer() {
   const app = fastify({
     logger,
   });
 
+  app.register(authPlugins);
   app
-    .register(fastifyAutoload, {
-      dir: join(process.cwd(), "src/plugins"),
-      options: Object.assign({}),
-    })
-    .register(fastifyAutoload, {
-      dir: join(process.cwd(), "src/routes"),
-      options: { prefix: "/api" },
-    });
+    .register(import("@/routes/root"), { prefix: "/api" })
+    .register(import("@/routes/auth/index"), { prefix: "/api/auth" })
+    .register(import("@/routes/user/index"), { prefix: "/api/user" });
 
   return app;
 }
