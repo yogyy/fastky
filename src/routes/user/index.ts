@@ -1,13 +1,16 @@
-import {
-  getUserByidHandler,
-  registerUserHandler,
-} from "@/src/modules/user/user.controller";
-import { getUser } from "@/src/modules/user/user.schema";
+import { getUserHandler } from "@/modules/user/user.controller";
+import { getUser } from "@/modules/user/user.schema";
 import { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 
 const userRoutes: FastifyPluginAsyncTypebox = async function (app, _opts) {
-  app.get(":id", { schema: { querystring: getUser } }, getUserByidHandler);
+  app.get(
+    ":username",
+    { onRequest: [app.auth], schema: { querystring: getUser } },
+    getUserHandler
+  );
 
-  app.post("/register", registerUserHandler);
+  app.get("/me", { onRequest: [app.auth] }, (req, reply) => {
+    reply.send(req.user);
+  });
 };
 export default userRoutes;
