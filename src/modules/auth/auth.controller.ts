@@ -84,7 +84,7 @@ export async function registerUserHandler(
         const errorMessage =
           err.constraint === "ky_user_email_key" ? "Email address" : "Username";
         return reply
-          .code(400)
+          .code(409)
           .send(new Error(`${errorMessage} already exists`));
       }
     } else {
