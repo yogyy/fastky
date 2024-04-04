@@ -2,12 +2,12 @@
   "name": "fastify-kysely",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node main.js",
     "dev": "tsx watch main.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "db:type": "kysely-codegen"
   },
   "keywords": [],
@@ -26,14 +26,16 @@
     "oslo": "^1.2.0",
     "pg": "^8.11.4",
     "pino": "^8.19.0",
-    "pino-pretty": "^11.0.0",
-    "uuid": "^9.0.1"
+    "pino-pretty": "^11.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.2",
     "@types/pg": "^8.11.4",
+    "@types/supertest": "^6.0.2",
     "kysely-codegen": "^0.14.2",
+    "supertest": "^6.3.4",
     "tsx": "^4.7.1",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
   }
 }
