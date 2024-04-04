@@ -1,5 +1,4 @@
-import { buildServer } from "./src/utils/server";
-import "dotenv/config";
+import buildServer from "./src/utils/server";
 
 async function gracefulShutdown({
   app,
