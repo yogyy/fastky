@@ -23,12 +23,9 @@ export default fp(async function (fastify, opts) {
   );
 
   fastify.decorateRequest("generateToken", function (payload: JWTPayload) {
-    const token = fastify.jwt.sign(
-      {
-        ...payload,
-      },
-      { expiresIn: "15m" }
-    );
+    const token = fastify.jwt.sign({
+      ...payload,
+    });
     return token;
   });
 
