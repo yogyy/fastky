@@ -9,7 +9,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface User {
   id: Generated<number>;
-  uuid: Generated<string | null>;
+  uuid: string | null | Generated<string | null>;
   email: string;
   username: string;
   name: string;
@@ -25,7 +25,7 @@ export interface DB {
 }
 
 export interface JWTPayload {
-  id: number | string;
+  sub: string | null;
   email: string;
   name: string;
 }
