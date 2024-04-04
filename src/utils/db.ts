@@ -4,11 +4,7 @@ import { DB } from "~/types";
 
 const dialect = new PostgresDialect({
   pool: new Pool({
-    database: "kysely",
-    host: "localhost",
-    user: "postgres",
-    password: "root",
-    port: 5432,
+    connectionString: process.env.DATABASE_URL,
     max: 10,
   }),
 });
