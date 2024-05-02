@@ -6,6 +6,8 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
+export type Bookstatus = "completed" | "ongoing";
+export type Booktype = "manga" | "manhua" | "manhwa";
 
 export interface User {
   id: Generated<number>;
@@ -20,8 +22,19 @@ export interface User {
   updated_at: Generated<Timestamp>;
 }
 
+export interface Bookshelf {
+  alternative: string;
+  genre: string[];
+  id: string;
+  release: Timestamp;
+  status: Bookstatus;
+  title: string;
+  type: Booktype;
+}
+
 export interface DB {
   ky_user: User;
+  bookshelf: Bookshelf;
 }
 
 export interface JWTPayload {
