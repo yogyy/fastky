@@ -92,7 +92,7 @@ describe("POST /api/auth/login", async () => {
     expect(res.body).toStrictEqual({
       statusCode: 401,
       error: "Unauthorized",
-      message: "Incorrect password",
+      message: "Invalid Email or Password",
     });
   });
 });

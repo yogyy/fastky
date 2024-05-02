@@ -22,7 +22,7 @@ export async function loginHandler(
     const verified = await argon.verify(user.password, password);
 
     if (!verified) {
-      return reply.code(401).send(new Error("Incorrect password"));
+      return reply.code(401).send(new Error("Invalid Email or Password"));
     }
 
     const token = await generateAccToken(user, req.generateToken);
