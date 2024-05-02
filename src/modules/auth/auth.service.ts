@@ -1,4 +1,4 @@
-import { db } from "@/utils/db";
+import { db } from "@/db";
 import { registerType } from "./auth.schema";
 
 async function createUser(payload: registerType) {

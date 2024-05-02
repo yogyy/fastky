@@ -1,4 +1,4 @@
-import { db } from "@/utils/db";
+import { db } from "@/db";
 
 async function getUser(username: string) {
   return await db
