@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { getUser } from "./user.service";
-import { getUserType } from "./user.schema";
+import { deleteUser, getUser } from "./user.service";
+import { deleteUserType, getUserType } from "./user.schema";
 
 export async function getUserHandler(
   req: FastifyRequest<{ Querystring: getUserType }>,
@@ -23,4 +23,15 @@ export async function getUserHandler(
     console.log(err);
     reply.code(500).send({ error: "Internal Server Error" });
   }
+}
+
+export async function deleteUserHandler(
+  req: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { email } = req.user;
+
+  await deleteUser(email);
+
+  reply.code(200).send({ success: true, message: "user deleted" });
 }

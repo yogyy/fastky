@@ -8,4 +8,7 @@ async function getUser(username: string) {
     .executeTakeFirstOrThrow();
 }
 
-export { getUser };
+async function deleteUser(email: string) {
+  await db.deleteFrom("ky_user").where("email", "=", email).execute();
+}
+export { getUser, deleteUser };
