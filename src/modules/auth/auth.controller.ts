@@ -4,7 +4,7 @@ import { createUser, findUser } from "./auth.service";
 import { Argon2id } from "oslo/password";
 import { DatabaseError } from "pg";
 import { NoResultError } from "kysely";
-import { generateAccToken } from "./lib";
+import { generateAccToken } from "@/lib/utils";
 
 const argon = new Argon2id();
 
