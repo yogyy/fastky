@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { JWTPayload, User } from "~/types";
 
 interface UserPayload extends Pick<User, "uuid" | "email" | "name"> {
@@ -14,3 +15,6 @@ export const generateAccToken = async (
     name: user.name,
   });
 };
+
+export const generateId = (prefix = "", length = 20) =>
+  `${prefix}_${nanoid(length)}`;
