@@ -28,7 +28,7 @@ async function migrateToLatest() {
     }),
   });
 
-  const { error, results } = await migrator.migrateToLatest();
+  const { error, results } = await migrator.migrateUp();
 
   results?.forEach((it) => {
     if (it.status === "Success") {
