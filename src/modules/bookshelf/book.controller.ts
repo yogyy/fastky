@@ -5,7 +5,6 @@ import { addBook, getBooks } from "./book.service";
 import { DatabaseError } from "pg";
 import { db } from "@/db";
 import { sql } from "kysely";
-import { Bookshelf } from "~/types";
 
 interface Paginate extends getBookType {}
 
@@ -27,7 +26,7 @@ export async function getBookHandler(
 
     reply.code(200).send({
       data: books,
-      total_data: totalBooks[0].count,
+      total_data: parseInt(totalBooks[0].count),
       per_page: perPage,
       current_page: currentPage,
     });
