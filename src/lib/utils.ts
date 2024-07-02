@@ -16,5 +16,7 @@ export const generateAccToken = async (
   });
 };
 
-export const generateId = (prefix = "", length = 20) =>
-  `${prefix}_${nanoid(length)}`;
+export const generateId = (prefix = "", length = 20) => {
+  const randomPart = nanoid(length);
+  return prefix ? `${prefix}_${randomPart}` : randomPart;
+};
