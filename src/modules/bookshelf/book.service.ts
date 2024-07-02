@@ -1,11 +1,17 @@
 import { db } from "@/db";
 import { newBookType } from "./book.schema";
 
-async function getBooks() {
-  return await db.selectFrom("bookshelf").selectAll().execute();
+type BookPayload = { id: string } & newBookType;
+
+async function getBooks(currentPage: number, perPage: number) {
+  return await db
+    .selectFrom("bookshelf")
+    .selectAll()
+    .offset((currentPage - 1) * perPage)
+    .limit(perPage)
+    .execute();
 }
 
-type BookPayload = { id: string } & newBookType;
 async function addBook(payload: BookPayload) {
   return await db
     .insertInto("bookshelf")
