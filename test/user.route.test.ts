@@ -1,13 +1,13 @@
 import { afterAll, expect, test, describe } from "vitest";
 import supertest from "supertest";
 import buildServer from "@/utils/server";
-import { generateAccToken } from "@/modules/auth/lib";
 import {
   accessDeniedNoToken,
   accessDeniedTokenExpired,
   expiredToken,
   mockUser,
 } from "./mocks";
+import { generateAccToken } from "@/lib/utils";
 
 let token = "";
 
