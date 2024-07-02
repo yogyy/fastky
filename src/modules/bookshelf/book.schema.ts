@@ -13,4 +13,10 @@ export const newBook = Type.Object({
   ]),
 });
 
+export const getBook = Type.Object({
+  page: Type.Number({ minimum: 1, default: 1 }),
+  per_page: Type.Number({ minimum: 1, default: 5 }),
+});
+
+export type getBookType = Static<typeof getBook>;
 export type newBookType = Static<typeof newBook>;
