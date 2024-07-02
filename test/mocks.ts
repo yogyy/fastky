@@ -41,6 +41,21 @@ const registerMocks = {
   name: "Mock User",
 };
 
+const mockBook = {
+  "title": "Book test",
+  "alternative": "testing add book",
+  "genre": "Action, Adventure, Fantasy",
+  "release": "2024-07-01",
+  "status": "ongoing",
+  "type": "manhwa",
+};
+
+const bookConflict = {
+  "statusCode": 409,
+  "error": "Conflict",
+  "message": "book already exists",
+};
+
 export {
   accessDeniedNoToken,
   accessDeniedTokenExpired,
@@ -49,4 +64,6 @@ export {
   registerMocks,
   failedRegisterReqProperty,
   registerConflict,
+  mockBook,
+  bookConflict,
 };
