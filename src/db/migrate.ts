@@ -1,19 +1,20 @@
 import {
-  FileMigrationProvider,
   Kysely,
   Migrator,
   PostgresDialect,
+  FileMigrationProvider,
 } from "kysely";
 import { promises as fs } from "fs";
-import path from "path";
 import { DB } from "~/types";
 import { Pool } from "pg";
+import path from "path";
+import "dotenv/config";
 
 async function migrateToLatest() {
   const db = new Kysely<DB>({
     dialect: new PostgresDialect({
       pool: new Pool({
-        connectionString: "postgres://postgres:root@localhost:5432/kysely",
+        connectionString: process.env.DATABASE_URL,
       }),
     }),
   });
